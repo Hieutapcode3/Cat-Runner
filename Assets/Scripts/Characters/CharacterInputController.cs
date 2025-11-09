@@ -347,7 +347,6 @@ public class CharacterInputController : MonoBehaviour
 	{
 		if (!m_IsRunning)
 			return;
-		
 		if (!m_Sliding)
 		{
 
@@ -356,7 +355,8 @@ public class CharacterInputController : MonoBehaviour
 
             float correctSlideLength = slideLength * (1.0f + trackManager.speedRatio); 
 			m_SlideStart = trackManager.worldDistance;
-            float animSpeed = k_TrackSpeedToJumpAnimSpeedRatio * (trackManager.speed / correctSlideLength);
+            float animSpeed = k_TrackSpeedToJumpAnimSpeedRatio 
+								* (trackManager.speed / correctSlideLength);
 
 			character.animator.SetFloat(s_JumpingSpeedHash, animSpeed);
 			character.animator.SetBool(s_SlidingHash, true);

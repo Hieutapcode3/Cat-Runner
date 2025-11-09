@@ -10,14 +10,14 @@ public class Pooler
 	protected Stack<GameObject> m_FreeInstances = new Stack<GameObject>();
 	protected GameObject m_Original;
 
-	public Pooler(GameObject original, int initialSize)
+	public Pooler(GameObject original, int initialSize,Transform parent = null)
 	{
 		m_Original = original;
 		m_FreeInstances = new Stack<GameObject>(initialSize);
 
 		for (int i = 0; i < initialSize; ++i)
 		{
-			GameObject obj = Object.Instantiate(original);
+			GameObject obj = Object.Instantiate(original,parent);
 			obj.SetActive(false);
             m_FreeInstances.Push(obj);
 		}

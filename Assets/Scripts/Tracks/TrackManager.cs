@@ -50,6 +50,7 @@ public class TrackManager : MonoBehaviour
     [Header("Objects")]
     public ConsumableDatabase consumableDatabase;
     public MeshFilter skyMeshFilter;
+    [SerializeField] private Transform collectibleTransform;
 
     [Header("Parallax")]
     public Transform parallaxRoot;
@@ -237,7 +238,7 @@ public class TrackManager : MonoBehaviour
 
             m_SafeSegementLeft = m_IsTutorial ? 0 : k_StartingSafeSegments;
 
-            Coin.coinPool = new Pooler(currentTheme.collectiblePrefab, k_StartingCoinPoolSize);
+            Coin.coinPool = new Pooler(currentTheme.collectiblePrefab, k_StartingCoinPoolSize, collectibleTransform);
 
             PlayerData.instance.StartRunMissions(this);
 
