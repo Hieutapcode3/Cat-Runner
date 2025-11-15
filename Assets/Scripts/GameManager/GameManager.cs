@@ -20,13 +20,18 @@ public class GameManager : MonoBehaviour
     protected List<AState> m_StateStack = new List<AState>();
     protected Dictionary<string, AState> m_StateDict = new Dictionary<string, AState>();
 
+    void Start()
+    {
+        Application.targetFrameRate = 60;
+    }
     protected void OnEnable()
     {
         PlayerData.Create();
 
         s_Instance = this;
 
-        m_ConsumableDatabase.Load();
+        if( m_ConsumableDatabase != null )
+            m_ConsumableDatabase.Load();
 
         // We build a dictionnary from state for easy switching using their name.
         m_StateDict.Clear();
@@ -34,7 +39,7 @@ public class GameManager : MonoBehaviour
         if (states.Length == 0)
             return;
 
-        for(int i = 0; i < states.Length; ++i)
+        for (int i = 0; i < states.Length; ++i)
         {
             states[i].manager = this;
             m_StateDict.Add(states[i].GetName(), states[i]);

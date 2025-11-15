@@ -50,7 +50,6 @@ public class ShopAccessoriesList : ShopList
             header.transform.SetParent(listRoot, false);
             ShopItemListItem itmHeader = header.GetComponent<ShopItemListItem>();
             itmHeader.nameText.text = c.characterName;
-
             prefabItem.InstantiateAsync().Completed += (innerOp) =>
             {
 	            LoadedAccessory(innerOp, currentIndex, 0);
@@ -80,7 +79,7 @@ public class ShopAccessoriesList : ShopList
 		    itm.pricetext.text = accessory.cost.ToString();
 		    itm.icon.sprite = accessory.accessoryIcon;
 		    itm.buyButton.image.sprite = itm.buyButtonSprite;
-
+            itm.countText.gameObject.SetActive(false);
 		    if (accessory.premiumCost > 0)
 		    {
 			    itm.premiumText.transform.parent.gameObject.SetActive(true);
@@ -132,7 +131,7 @@ public class ShopAccessoriesList : ShopList
 		}
 		else
 		{
-			itm.pricetext.color = Color.black;
+			itm.pricetext.color = Color.white;
 		}
 
 		if (accessory.premiumCost > PlayerData.instance.premium)
@@ -142,7 +141,7 @@ public class ShopAccessoriesList : ShopList
 		}
 		else
 		{
-			itm.premiumText.color = Color.black;
+			itm.premiumText.color = Color.white;
 		}
 
 		if (PlayerData.instance.characterAccessories.Contains(compoundName))

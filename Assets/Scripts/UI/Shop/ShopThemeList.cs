@@ -36,7 +36,7 @@ public class ShopThemeList : ShopList
                     itm.nameText.text = theme.themeName;
                     itm.pricetext.text = theme.cost.ToString();
                     itm.icon.sprite = theme.themeIcon;
-
+                    itm.countText.gameObject.SetActive(false);
                     if (theme.premiumCost > 0)
                     {
                         itm.premiumText.transform.parent.gameObject.SetActive(true);
@@ -67,7 +67,7 @@ public class ShopThemeList : ShopList
 		}
 		else
 		{
-			itm.pricetext.color = Color.black;
+			itm.pricetext.color = Color.white;
 		}
 
 		if (theme.premiumCost > PlayerData.instance.premium)
@@ -77,7 +77,7 @@ public class ShopThemeList : ShopList
 		}
 		else
 		{
-			itm.premiumText.color = Color.black;
+			itm.premiumText.color = Color.white;
 		}
 
 		if (PlayerData.instance.themes.Contains(theme.themeName))

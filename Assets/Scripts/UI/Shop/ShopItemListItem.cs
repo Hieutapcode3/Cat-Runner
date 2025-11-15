@@ -1,15 +1,16 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class ShopItemListItem : MonoBehaviour
 {
     public Image icon;
-    public Text nameText;
-    public Text pricetext;
-	public Text premiumText;
+    public TextMeshProUGUI nameText;
+    public TextMeshProUGUI pricetext;
+	public TextMeshProUGUI premiumText;
     public Button buyButton;
 
-	public Text countText;
+	public TextMeshProUGUI countText;
 
 	public Sprite buyButtonSprite;
 	public Sprite disabledButtonSprite;
