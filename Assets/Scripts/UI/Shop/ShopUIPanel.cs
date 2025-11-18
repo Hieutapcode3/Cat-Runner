@@ -3,8 +3,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
-public class ShopUIPanel : MonoBehaviour
+public class ShopUIPanel : MonoSingleton<ShopUIPanel>
 {
     [Header("Shop Lists (Panels)")]
     [SerializeField] private ShopItemList itemList;
@@ -26,6 +27,7 @@ public class ShopUIPanel : MonoBehaviour
     [SerializeField] private TextMeshProUGUI coinCounter;
     [SerializeField] private TextMeshProUGUI premiumCounter;
     [SerializeField] private Button cheatButton;
+    [SerializeField] private Image backgroundImage;
 
     private Dictionary<Button, MonoBehaviour> _tabs;
     private Button _currentTabBtn;
@@ -33,8 +35,9 @@ public class ShopUIPanel : MonoBehaviour
     protected const int k_CheatCoins = 1000000;
     protected const int k_CheatPremium = 1000;
 
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         _tabs = new Dictionary<Button, MonoBehaviour>();
         TryAddTab(itemListBtn, itemList);
         TryAddTab(characterListBtn, characterList);
@@ -60,12 +63,13 @@ public class ShopUIPanel : MonoBehaviour
     {
         if(itemList != null)
             OnTabSelected(itemListBtn);
+        UpdateDataTxt();
     }
 
-    private void Update()
+    public void UpdateDataTxt()
     {
-        // coinCounter.text = PlayerData.instance.coins.ToString();
-        // premiumCounter.text = PlayerData.instance.premium.ToString();
+        coinCounter.text = PlayerData.instance.coins.ToString();
+        premiumCounter.text = PlayerData.instance.premium.ToString();
     }
 
     private void TryAddTab(Button btn, MonoBehaviour panel)
@@ -116,7 +120,12 @@ public class ShopUIPanel : MonoBehaviour
             }
         }
     }
-
+    public void OnBackgroundClick(BaseEventData data)
+    {
+        PointerEventData p = (PointerEventData)data;
+        if (p.pointerCurrentRaycast.gameObject == backgroundImage.gameObject)
+            CloseScene();
+    }
     public void LoadScene(string scene)
     {
         SceneManager.LoadScene(scene, LoadSceneMode.Single);
@@ -135,5 +144,6 @@ public class ShopUIPanel : MonoBehaviour
         PlayerData.instance.coins += k_CheatCoins;
         PlayerData.instance.premium += k_CheatPremium;
         PlayerData.instance.Save();
+        UpdateDataTxt();
     }
 }

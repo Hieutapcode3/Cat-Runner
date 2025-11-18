@@ -93,6 +93,7 @@ public class ShopAccessoriesList : ShopList
 		    itm.buyButton.onClick.AddListener(delegate()
 		    {
 			    Buy(compoundName, accessory.cost, accessory.premiumCost);
+                
 		    });
 
 		    m_RefreshCallback += delegate() { RefreshButton(itm, accessory, compoundName); };
@@ -160,7 +161,7 @@ public class ShopAccessoriesList : ShopList
 		PlayerData.instance.premium -= premiumCost;
 		PlayerData.instance.AddAccessory(name);
         PlayerData.instance.Save();
-
+        ShopUIPanel.Instance.UpdateDataTxt();
 #if UNITY_ANALYTICS // Using Analytics Standard Events v0.3.0
         var transactionId = System.Guid.NewGuid().ToString();
         var transactionContext = "store";

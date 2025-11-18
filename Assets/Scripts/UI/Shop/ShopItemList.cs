@@ -54,7 +54,7 @@ public class ShopItemList : ShopList
 
                     itm.countText.gameObject.SetActive(true);
 
-                    itm.buyButton.onClick.AddListener(delegate() { Buy(c); });
+                    itm.buyButton.onClick.AddListener(delegate() { Buy(c);});
                     m_RefreshCallback += delegate() { RefreshButton(itm, c); };
                     RefreshButton(itm, c);
                 };
@@ -95,7 +95,7 @@ public class ShopItemList : ShopList
 		PlayerData.instance.premium -= c.GetPremiumCost();
 		PlayerData.instance.Add(c.GetConsumableType());
         PlayerData.instance.Save();
-
+        ShopUIPanel.Instance.UpdateDataTxt();
 #if UNITY_ANALYTICS // Using Analytics Standard Events v0.3.0
         var transactionId = System.Guid.NewGuid().ToString();
         var transactionContext = "store";

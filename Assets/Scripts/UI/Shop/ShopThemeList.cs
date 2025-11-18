@@ -47,7 +47,8 @@ public class ShopThemeList : ShopList
                         itm.premiumText.transform.parent.gameObject.SetActive(false);
                     }
 
-                    itm.buyButton.onClick.AddListener(delegate() { Buy(theme); });
+                    itm.buyButton.onClick.AddListener(delegate() { Buy(theme);
+                        ShopUIPanel.Instance.UpdateDataTxt();});
 
                     itm.buyButton.image.sprite = itm.buyButtonSprite;
 
@@ -95,7 +96,7 @@ public class ShopThemeList : ShopList
 		PlayerData.instance.premium -= t.premiumCost;
         PlayerData.instance.AddTheme(t.themeName);
         PlayerData.instance.Save();
-
+        ShopUIPanel.Instance.UpdateDataTxt();
 #if UNITY_ANALYTICS // Using Analytics Standard Events v0.3.0
         var transactionId = System.Guid.NewGuid().ToString();
         var transactionContext = "store";

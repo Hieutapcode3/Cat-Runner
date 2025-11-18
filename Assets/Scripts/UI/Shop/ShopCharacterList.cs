@@ -96,7 +96,7 @@ public class ShopCharacterList : ShopList
 		PlayerData.instance.premium -= c.premiumCost;
         PlayerData.instance.AddCharacter(c.characterName);
         PlayerData.instance.Save();
-
+        ShopUIPanel.Instance.UpdateDataTxt();
 #if UNITY_ANALYTICS // Using Analytics Standard Events v0.3.0
         var transactionId = System.Guid.NewGuid().ToString();
         var transactionContext = "store";

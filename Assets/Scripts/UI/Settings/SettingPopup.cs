@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class SettingPopup : MonoBehaviour
@@ -21,6 +22,8 @@ public class SettingPopup : MonoBehaviour
     protected const string k_MasterVolumeFloatName = "MasterVolume";
     protected const string k_MusicVolumeFloatName = "MusicVolume";
     protected const string k_MasterSFXVolumeFloatName = "MasterSFXVolume";
+    [SerializeField] private Image backgroundImage;
+    [SerializeField] private GameObject settingsPanel;
     
     public void Open()
     {
@@ -70,5 +73,12 @@ public class SettingPopup : MonoBehaviour
         m_MasterSFXVolume = k_MinVolume * (1.0f - value);
         mixer.SetFloat(k_MasterSFXVolumeFloatName, m_MasterSFXVolume);
 		PlayerData.instance.masterSFXVolume = m_MasterSFXVolume;
+    }
+    public void OnBackgroundClick(BaseEventData data)
+    {
+        PointerEventData p = (PointerEventData)data;
+        if (p.pointerCurrentRaycast.gameObject == backgroundImage.gameObject)
+            settingsPanel.SetActive(false);
+        Debug.Log("Background Clicked");
     }
 }
