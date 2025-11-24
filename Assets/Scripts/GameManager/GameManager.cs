@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour
             Debug.LogError("Can't find the state named " + newState);
             return;
         }
-
+        // state.gameObject.SetActive(true);
         m_StateStack[m_StateStack.Count - 1].Exit(state);
         state.Enter(m_StateStack[m_StateStack.Count - 1]);
         m_StateStack.RemoveAt(m_StateStack.Count - 1);

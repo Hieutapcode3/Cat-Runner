@@ -1,13 +1,17 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.EventSystems;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.UI;
 
 public class MissionUI : MonoBehaviour
 {
     public RectTransform missionPlace;
     public AssetReference missionEntryPrefab;
     public AssetReference addMissionButtonPrefab;
+	public Image background;
+
 
     public IEnumerator Open()
     {
@@ -64,5 +68,11 @@ public class MissionUI : MonoBehaviour
     public void Close()
     {
         gameObject.SetActive(false);
+    }
+    public void OnBackgroundClick(BaseEventData data)
+    {
+        PointerEventData p = (PointerEventData)data;
+        if (p.pointerCurrentRaycast.gameObject == background.gameObject)
+            Close();
     }
 }

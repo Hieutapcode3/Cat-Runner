@@ -249,6 +249,7 @@ public class PlayerData
 
         m_Instance.ftueLevel = 0;
         m_Instance.rank = 0;
+        m_Instance.tutorialDone = true;
 
         m_Instance.CheckMissionsCount();
 

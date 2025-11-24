@@ -11,32 +11,13 @@ using System.Collections.Generic;
 public class GameOverState : AState
 {
     public TrackManager trackManager;
-    public Canvas canvas;
-    public MissionUI missionPopup;
-
-	public AudioClip gameOverTheme;
-
-	public Leaderboard miniLeaderboard;
-	public Leaderboard fullLeaderboard;
-
-    public GameObject addButton;
+    public AudioClip gameOverTheme;
+    public GameObject canvasGameOver;
 
     public override void Enter(AState from)
     {
-        canvas.gameObject.SetActive(true);
-
-		miniLeaderboard.playerEntry.inputName.text = PlayerData.instance.previousName;
-		
-		miniLeaderboard.playerEntry.score.text = trackManager.score.ToString();
-		miniLeaderboard.Populate();
-
-        if (PlayerData.instance.AnyMissionComplete())
-            StartCoroutine(missionPopup.Open());
-        else
-            missionPopup.gameObject.SetActive(false);
-
 		CreditCoins();
-
+        canvasGameOver.SetActive(true);
 		if (MusicPlayer.instance.GetStem(0) != gameOverTheme)
 		{
             MusicPlayer.instance.SetStem(0, gameOverTheme);
@@ -46,7 +27,7 @@ public class GameOverState : AState
 
 	public override void Exit(AState to)
     {
-        canvas.gameObject.SetActive(false);
+        canvasGameOver.SetActive(false);
         FinishRun();
     }
 
@@ -59,22 +40,6 @@ public class GameOverState : AState
     {
         
     }
-
-	public void OpenLeaderboard()
-	{
-		fullLeaderboard.forcePlayerDisplay = false;
-		fullLeaderboard.displayPlayer = true;
-		fullLeaderboard.playerEntry.playerName.text = miniLeaderboard.playerEntry.inputName.text;
-		fullLeaderboard.playerEntry.score.text = trackManager.score.ToString();
-
-		fullLeaderboard.Open();
-    }
-
-	public void GoToStore()
-    {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("shop", UnityEngine.SceneManagement.LoadSceneMode.Additive);
-    }
-
 
     public void GoToLoadout()
     {
@@ -130,16 +95,13 @@ public class GameOverState : AState
 
 	protected void FinishRun()
     {
-		if(miniLeaderboard.playerEntry.inputName.text == "")
-		{
-			miniLeaderboard.playerEntry.inputName.text = "Trash Cat";
-		}
-		else
-		{
-			PlayerData.instance.previousName = miniLeaderboard.playerEntry.inputName.text;
-		}
+        string playerName = PlayerData.instance.previousName;
+        if (string.IsNullOrEmpty(playerName))
+        {
+            playerName = "Hieuthu3";
+        }
 
-        PlayerData.instance.InsertScore(trackManager.score, miniLeaderboard.playerEntry.inputName.text );
+        PlayerData.instance.InsertScore(trackManager.score, playerName);
 
         CharacterCollider.DeathEvent de = trackManager.characterController.characterCollider.deathData;
         //register data to analytics

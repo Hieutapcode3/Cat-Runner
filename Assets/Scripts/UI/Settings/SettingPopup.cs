@@ -78,7 +78,6 @@ public class SettingPopup : MonoBehaviour
     {
         PointerEventData p = (PointerEventData)data;
         if (p.pointerCurrentRaycast.gameObject == backgroundImage.gameObject)
-            settingsPanel.SetActive(false);
-        Debug.Log("Background Clicked");
+            gameObject.SetActive(false);
     }
 }

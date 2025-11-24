@@ -85,7 +85,7 @@ public class CharacterInputController : MonoBehaviour
 	    m_IsRunning = false;
     }
 
-#if !UNITY_STANDALONE
+#if !UNITY_STANDALONE || UNITY_WEBGL
     protected Vector2 m_StartingTouch;
 	protected bool m_IsSwiping = false;
 #endif
@@ -177,29 +177,84 @@ public class CharacterInputController : MonoBehaviour
 
 	protected void Update ()
     {
-#if UNITY_EDITOR || UNITY_STANDALONE
-        // Use key input in editor or standalone
+#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBGL
+        // Use key input in editor, standalone, or WebGL (for desktop browsers)
         // disabled if it's tutorial and not thecurrent right tutorial level (see func TutorialMoveCheck)
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow) && TutorialMoveCheck(0))
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             ChangeLane(-1);
         }
-        else if(Input.GetKeyDown(KeyCode.RightArrow) && TutorialMoveCheck(0))
+        else if(Input.GetKeyDown(KeyCode.RightArrow))
         {
             ChangeLane(1);
         }
-        else if(Input.GetKeyDown(KeyCode.UpArrow) && TutorialMoveCheck(1))
+        else if(Input.GetKeyDown(KeyCode.UpArrow) )
         {
             Jump();
         }
-		else if (Input.GetKeyDown(KeyCode.DownArrow) && TutorialMoveCheck(2))
+		else if (Input.GetKeyDown(KeyCode.DownArrow))
 		{
 			if(!m_Sliding)
 				Slide();
 		}
+#endif
+
+#if UNITY_WEBGL || (!UNITY_EDITOR && !UNITY_STANDALONE)
+        // Use touch input on mobile and WebGL (for mobile browsers)
+        if (Input.touchCount == 1)
+        {
+			if(m_IsSwiping)
+			{
+				Vector2 diff = Input.GetTouch(0).position - m_StartingTouch;
+
+				// Put difference in Screen ratio, but using only width, so the ratio is the same on both
+                // axes (otherwise we would have to swipe more vertically...)
+				diff = new Vector2(diff.x/Screen.width, diff.y/Screen.width);
+
+				if(diff.magnitude > 0.01f) //we set the swip distance to trigger movement to 1% of the screen width
+				{
+					if(Mathf.Abs(diff.y) > Mathf.Abs(diff.x))
+					{
+						if(TutorialMoveCheck(2) && diff.y < 0)
+						{
+							Slide();
+						}
+						else if(TutorialMoveCheck(1))
+						{
+							Jump();
+						}
+					}
+					else if(TutorialMoveCheck(0))
+					{
+						if(diff.x < 0)
+						{
+							ChangeLane(-1);
+						}
+						else
+						{
+							ChangeLane(1);
+						}
+					}
+						
+					m_IsSwiping = false;
+				}
+            }
+
+        	// Input check is AFTER the swip test, that way if TouchPhase.Ended happen a single frame after the Began Phase
+			// a swipe can still be registered (otherwise, m_IsSwiping will be set to false and the test wouldn't happen for that began-Ended pair)
+			if(Input.GetTouch(0).phase == TouchPhase.Began)
+			{
+				m_StartingTouch = Input.GetTouch(0).position;
+				m_IsSwiping = true;
+			}
+			else if(Input.GetTouch(0).phase == TouchPhase.Ended)
+			{
+				m_IsSwiping = false;
+			}
+        }
 #else
-        // Use touch input on mobile
+        // Use touch input on mobile (non-WebGL)
         if (Input.touchCount == 1)
         {
 			if(m_IsSwiping)

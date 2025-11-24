@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class HighscoreUI : MonoBehaviour
 {
-	public Text number;
-	public Text playerName;
+	public TextMeshProUGUI number;
+	public TextMeshProUGUI playerName;
 	public InputField inputName;
-	public Text score;
+	public TextMeshProUGUI score;
 }

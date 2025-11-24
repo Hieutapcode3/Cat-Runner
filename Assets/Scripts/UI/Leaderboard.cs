@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 // Prefill the info on the player data, as they will be used to populate the leadboard.
 public class Leaderboard : MonoBehaviour
@@ -9,6 +11,7 @@ public class Leaderboard : MonoBehaviour
 	public HighscoreUI playerEntry;
 	public bool forcePlayerDisplay;
 	public bool displayPlayer = true;
+	[SerializeField] private Image background;
 
 	public void Open()
 	{
@@ -82,4 +85,10 @@ public class Leaderboard : MonoBehaviour
 
 		playerEntry.number.text = (place + 1).ToString();
 	}
+	public void OnBackgroundClick(BaseEventData data)
+    {
+        PointerEventData p = (PointerEventData)data;
+        if (p.pointerCurrentRaycast.gameObject == background.gameObject)
+            Close();
+    }
 }

@@ -4,10 +4,6 @@ using UnityEngine.AddressableAssets;
 using UnityEditor;
 #endif
 
-/// <summary>
-/// This defines a "piece" of the track. This is attached to the prefab and contains data such as what obstacles can spawn on it.
-/// It also defines places on the track where obstacles can spawn. The prefab is placed into a ThemeData list.
-/// </summary>
 public class TrackSegment : MonoBehaviour
 {
     public Transform pathParent;
